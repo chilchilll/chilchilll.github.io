@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>채현의 6공 다이어리</title>
+    <style>
+        /* 1. 전체 레이아웃 스타일 */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #fdf0f0; /* 연한 핑크 배경 */
+            font-family: 'Malgun Gothic', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* 2. 다이어리 바인더 스타일 */
+        .binder {
+            display: flex;
+            width: 800px;
+            height: 500px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            border: 2px solid #eee;
+            overflow: hidden;
+        }
+
+        /* 왼쪽 페이지 (프로필/메뉴) */
+        .page-left {
+            flex: 1;
+            padding: 30px;
+            border-right: 1px inset #eee;
+            text-align: center;
+            background-color: #fffafb;
+        }
+
+        /* 오른쪽 페이지 (내용 입력) */
+        .page-right {
+            flex: 1;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            background-image: linear-gradient(#f1f1f1 1px, transparent 1px);
+            background-size: 100% 30px; /* 유선지 효과 */
+            position: relative;
+        }
+
+        /* 3. 6공 다이어리 링 디자인 */
+        .rings {
+            width: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            background: linear-gradient(to right, #e0e0e0, #ffffff, #e0e0e0);
+            z-index: 10;
+        }
+
+        .ring {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #d1d1d1;
+            border: 2px solid #b1b1b1;
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        /* 4. 세부 요소 스타일 */
+        .title { color: #ff8a8a; letter-spacing: 2px; margin-bottom: 20px; }
+        
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            background-color: #ffe0e0;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+        }
+
+        .menu { list-style: none; padding: 0; text-align: left; margin-top: 30px; }
+        .menu li { padding: 10px; color: #777; cursor: pointer; border-bottom: 1px dashed #eee; }
+        .menu li:hover { color: #ff8a8a; background-color: #fff0f0; }
+
+        .date { font-weight: bold; color: #999; margin-bottom: 10px; border-bottom: 2px solid #ffccd5; display: inline-block; width: fit-content; }
+
+        #diary-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            line-height: 30px;
+            font-size: 16px;
+            resize: none;
+            outline: none;
+            color: #444;
+        }
+
+        .sticker {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 5px 12px;
+            background-color: #ffe082;
+            border-radius: 5px;
+            transform: rotate(-5deg);
+            font-weight: bold;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="binder">
+        <div class="page-left">
+            <h2 class="title">MY LOG</h2>
+            <div class="profile-pic">👩‍💻</div>
+            <p style="font-weight: bold; color: #555;">이채현 (Lee Chaeyeon)</p>
+            <p style="font-size: 0.8rem; color: #999;">AI Convergence</p>
+            <ul class="menu">
+                <li>🏠 Home</li>
+                <li>📚 Study Notes</li>
+                <li>🎨 Portfolio</li>
+                <li>⚙️ Settings</li>
+            </ul>
+        </div>
+
+        <div class="rings">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+        </div>
+
+        <div class="page-right">
+            <div id="current-date" class="date"></div>
+            <textarea id="diary-input" placeholder="여기에 오늘 공부한 내용이나 일기를 작성해보세요..."></textarea>
+            <div class="sticker">✨ Fighting!</div>
+        </div>
+    </div>
+
+    <script>
+        // 1. 날짜 자동 업데이트
+        const dateElement = document.getElementById('current-date');
+        const now = new Date();
+        dateElement.innerText = `${now.getFullYear()}. ${String(now.getMonth() + 1).padStart(2, '0')}. ${String(now.getDate()).padStart(2, '0')}`;
+
+        // 2. 자동 저장 기능 (로컬 스토리지 활용)
+        const diaryInput = document.getElementById('diary-input');
+        
+        // 페이지 로드 시 기존 내용 불러오기
+        const savedContent = localStorage.getItem('chaeyeon_diary');
+        if (savedContent) {
+            diaryInput.value = savedContent;
+        }
+
+        // 입력할 때마다 로컬 스토리지에 저장 (전공 역량 맛보기!)
+        diaryInput.addEventListener('input', (e) => {
+            localStorage.setItem('chaeyeon_diary', e.target.value);
+        });
+    </script>
+</body>
+</html>
